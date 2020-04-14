@@ -32,4 +32,4 @@ ArticlesService.getAllArticles(knexInstance)
     })
     .finally(() => {
         knexInstance.destroy();
-    })
+    });

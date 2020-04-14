@@ -1,7 +1,7 @@
 const ArticlesService = require('../src/articles-service');
 const knex = require('knex');
 
-describe('Articles service object', function() {
+describe.skip('Articles service object', function() {
     let db;
     let testArticles = [
         {
