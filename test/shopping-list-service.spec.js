@@ -7,7 +7,7 @@ describe('Shopping List Service Object', () => {
         {
             id: 1,
             name: 'Fish Tricks',
-            price: 13.10,
+            price: '13.10',
             date_added: new Date(),
             checked: true,
             category: 'Main'
@@ -15,7 +15,7 @@ describe('Shopping List Service Object', () => {
         {
             id: 2,
             name: 'Not Dogs',
-            price: 4.99,
+            price: '4.99',
             date_added: new Date(),
             checked: true,
             category: 'Snack'
@@ -23,7 +23,7 @@ describe('Shopping List Service Object', () => {
         {
             id: 3,
             name: 'Bluffalo Wings',
-            price: 5.50,
+            price: '5.50',
             date_added: new Date(),
             checked: true,
             category: 'Snack'
@@ -37,17 +37,11 @@ describe('Shopping List Service Object', () => {
         });
     });
 
-    before(() => {
-        db('shopping_list').truncate();
-    });
+    before(() => db('shopping_list').truncate());
 
-    afterEach(() => {
-        db('shopping_list').truncate();
-    });
+    afterEach(() => db('shopping_list').truncate());
 
-    after(() => {
-        db.destroy();
-    });
+    after(() => db.destroy());
 
     context(`'shopping_list' has data`, () => {
         beforeEach(() => {
@@ -58,6 +52,17 @@ describe('Shopping List Service Object', () => {
             return ShoppingListService.getList(db)
                 .then(result => {
                     expect(result).to.eql(testList);
+                });
+        });
+    });
+
+    context(`'shopping_list' has no data`, () => {
+        beforeEach(() => db('shopping_list').truncate());
+
+        it('should get [] when no items', () => {
+            return ShoppingListService.getList(db)
+                .then(result => {
+                    expect(result).to.eql([]);
                 });
         });
     });
