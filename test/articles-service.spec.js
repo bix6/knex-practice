@@ -1,5 +1,19 @@
+const ArticlesService = require('../src/articles-service');
+const knex = require('knex');
+
 describe('Articles service object', function() {
-    it('should run the tests', () => {
-        expect(true).to.eql(false);
+    let db;
+
+    before(() => {
+        db = knex({
+            client: 'pg',
+            connection: process.env.TEST_DB_URL
+        });
+    });
+    
+    describe('getAllArticles()', () => {
+        it(`resolves all articles from 'blogful_articles' table`, () => {
+            // test
+        });
     });
 });
