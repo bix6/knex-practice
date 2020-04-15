@@ -54,6 +54,22 @@ describe('Shopping List Service Object', () => {
                     expect(result).to.eql(testList);
                 });
         });
+
+        it('should get by id', () => {
+            const id = 1
+            return ShoppingListService.getById(db, id)
+                .then(result => {
+                    expect(result).to.eql(testList[0]);
+                });
+        });
+
+        it('should return undefined if no id match', () => {
+            const id = 4;
+            return ShoppingListService.getById(db, id)
+            .then(result => {
+                expect(result).to.be.falsy;
+            });
+        })
     });
 
     context(`'shopping_list' has no data`, () => {
