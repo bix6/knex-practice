@@ -66,10 +66,39 @@ describe('Shopping List Service Object', () => {
         it('should return undefined if no id match', () => {
             const id = 4;
             return ShoppingListService.getById(db, id)
-            .then(result => {
-                expect(result).to.be.falsy;
-            });
-        })
+                .then(result => {
+                    expect(result).to.be.undefined;
+                });
+        });
+
+        it('should delete item by id', () => {
+            const id = 1;
+            const newList = testList.slice(1);
+            return ShoppingListService.deleteItem(db, id)
+                .then(() => ShoppingListService.getList(db))
+                .then(list => {
+                    expect(list).to.eql(newList);
+                });
+        });
+
+        it('should update item', () => {
+            const id = 1;
+            const updateObj = {
+                name: 'updated name',
+                price: '13.33',
+                checked: true,
+                date_added: new Date(),
+                category: 'Main'
+            }
+            return ShoppingListService.updateItem(db, id, updateObj)
+                .then(() => ShoppingListService.getById(db, id))
+                .then(result => {
+                    expect(result).to.eql({
+                        id: id,
+                        ...updateObj
+                    });
+                });
+        });
     });
 
     context(`'shopping_list' has no data`, () => {
@@ -79,6 +108,23 @@ describe('Shopping List Service Object', () => {
             return ShoppingListService.getList(db)
                 .then(result => {
                     expect(result).to.eql([]);
+                });
+        });
+
+        it('should insert a new item', () => {
+            const newItem = {
+                name: 'Pumpkins',
+                price: '12.22',
+                category: 'Main',
+                date_added: new Date(),
+                checked: false
+            };
+            return ShoppingListService.insertItem(db, newItem)
+                .then(result => {
+                    expect(result).to.eql({
+                        id: 1,
+                        ...newItem
+                    });
                 });
         });
     });
